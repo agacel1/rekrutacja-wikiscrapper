@@ -1,9 +1,14 @@
 package com.lastminute.recruitment;
 
-import com.lastminute.recruitment.domain.WikiScrapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lastminute.recruitment.client.HtmlWikiClient;
+import com.lastminute.recruitment.client.JsonWikiClient;
 import com.lastminute.recruitment.domain.WikiPageRepository;
 import com.lastminute.recruitment.domain.WikiReader;
+import com.lastminute.recruitment.domain.WikiScrapper;
 import com.lastminute.recruitment.persistence.InMemoryWikiPageRepository;
+import com.lastminute.recruitment.reader.HtmlWikiReader;
+import com.lastminute.recruitment.reader.JsonWikiReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -12,15 +17,31 @@ import org.springframework.context.annotation.Profile;
 public class WikiScrapperConfiguration {
 
     @Bean
-    @Profile("!json")
-    public WikiReader htmlWikiReader() {
-        return link -> null;
+    @Profile("html")
+    public WikiReader htmlWikiReader(HtmlWikiClient client) {
+        return new HtmlWikiReader(client);
     }
 
     @Bean
     @Profile("json")
-    public WikiReader jsonWikiReader() {
-        return link -> null;
+    public WikiReader jsonWikiReader(JsonWikiClient client,
+                                     ObjectMapper objectMapper) {
+        return new JsonWikiReader(client, objectMapper);
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
+    }
+
+    @Bean
+    public HtmlWikiClient htmlWikiClient() {
+        return new HtmlWikiClient();
+    }
+
+    @Bean
+    public JsonWikiClient jsonWikiClient() {
+        return new JsonWikiClient();
     }
 
     @Bean
