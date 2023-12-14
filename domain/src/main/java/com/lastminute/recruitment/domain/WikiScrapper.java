@@ -32,16 +32,16 @@ public class WikiScrapper {
         }
 
         var page = wikiPageQueue.poll();
-        visitedLinks.add(page.getSelfLink());
+        visitedLinks.add(page.selfLink());
         repository.save(page);
 
-        page.getLinks().stream()
+        page.links().stream()
             .filter(childLink -> linkIsNotVisited(visitedLinks, childLink))
             .forEach(childLink -> {
                 try {
                     var childPage = wikiReader.read(childLink);
                     wikiPageQueue.add(childPage);
-                    visitedLinks.add(childPage.getSelfLink());
+                    visitedLinks.add(childPage.selfLink());
                 } catch (FileParseException e) {
                 }
             });
