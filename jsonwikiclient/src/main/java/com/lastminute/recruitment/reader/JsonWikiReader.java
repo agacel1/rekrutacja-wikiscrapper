@@ -28,7 +28,7 @@ public class JsonWikiReader implements WikiReader {
         try {
             return objectMapper.readValue(file, WikiPage.class);
         } catch (IOException e) {
-            throw new FileParseException("could not parse json file", e);
+            throw new FileParseException("Unable to parse JSON file", e);
         }
     }
 
