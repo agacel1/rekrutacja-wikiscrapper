@@ -1,6 +1,6 @@
 package com.lastminute.recruitment.domain;
 
-import com.lastminute.recruitment.domain.error.FileParseException;
+import com.lastminute.recruitment.domain.error.PageParsingException;
 import com.lastminute.recruitment.domain.error.WikiPageNotFound;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -89,7 +89,7 @@ class WikiScrapperTest {
         var childLink = "test-url-2";
         var page = getPage(link, List.of(childLink));
         when(wikiReader.read(link)).thenReturn(page);
-        when(wikiReader.read(childLink)).thenThrow(new FileParseException("Unable to parse file"));
+        when(wikiReader.read(childLink)).thenThrow(new PageParsingException("Unable to parse file"));
 
         // when
         wikiScrapper.read(link);

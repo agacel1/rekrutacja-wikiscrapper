@@ -3,7 +3,7 @@ package com.lastminute.recruitment.reader;
 import com.lastminute.recruitment.client.HtmlWikiClient;
 import com.lastminute.recruitment.domain.WikiPage;
 import com.lastminute.recruitment.domain.WikiReader;
-import com.lastminute.recruitment.domain.error.FileParseException;
+import com.lastminute.recruitment.domain.error.PageParsingException;
 import com.lastminute.recruitment.domain.error.WikiPageNotFound;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -41,7 +41,7 @@ public class HtmlWikiReader implements WikiReader {
         try {
             return Jsoup.parse(file, StandardCharsets.UTF_8.name());
         } catch (IOException e) {
-            throw new FileParseException("Unable to parse HTML file", e);
+            throw new PageParsingException("Unable to parse HTML file", e);
         }
     }
 

@@ -1,6 +1,6 @@
 package com.lastminute.recruitment.exception;
 
-import com.lastminute.recruitment.domain.error.FileParseException;
+import com.lastminute.recruitment.domain.error.PageParsingException;
 import com.lastminute.recruitment.domain.error.WikiPageNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class RequestControllerExceptionHandler {
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(FileParseException.class)
+    @ExceptionHandler(PageParsingException.class)
     public final ResponseEntity<ExceptionResponse> handleBadRequest(Exception ex, WebRequest request) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(ex.getMessage(), List.of(request.getDescription(false)));
 

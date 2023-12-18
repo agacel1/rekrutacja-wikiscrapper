@@ -1,18 +1,22 @@
 package com.lastminute.recruitment.domain;
 
-import com.lastminute.recruitment.domain.error.FileParseException;
+import com.lastminute.recruitment.domain.error.PageParsingException;
 
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public class WikiScrapper {
 
     private final WikiReader wikiReader;
     private final WikiPageRepository repository;
 
-    public WikiScrapper(WikiReader wikiReader, WikiPageRepository repository) {
+    private static final Logger logger = Logger.getLogger(WikiScrapper.class.getName());
+
+    public WikiScrapper(WikiReader wikiReader,
+                        WikiPageRepository repository) {
         this.wikiReader = wikiReader;
         this.repository = repository;
     }
@@ -42,7 +46,8 @@ public class WikiScrapper {
                     var childPage = wikiReader.read(childLink);
                     wikiPageQueue.add(childPage);
                     visitedLinks.add(childPage.selfLink());
-                } catch (FileParseException e) {
+                } catch (PageParsingException e) {
+                    logger.warning(String.format("Page %s was not parsed.", childLink));
                 }
             });
 

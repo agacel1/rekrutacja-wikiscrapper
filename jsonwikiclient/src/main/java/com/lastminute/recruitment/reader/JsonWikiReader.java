@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lastminute.recruitment.client.JsonWikiClient;
 import com.lastminute.recruitment.domain.WikiPage;
 import com.lastminute.recruitment.domain.WikiReader;
-import com.lastminute.recruitment.domain.error.FileParseException;
+import com.lastminute.recruitment.domain.error.PageParsingException;
 import com.lastminute.recruitment.domain.error.WikiPageNotFound;
 
 import java.io.File;
@@ -28,7 +28,7 @@ public class JsonWikiReader implements WikiReader {
         try {
             return objectMapper.readValue(file, WikiPage.class);
         } catch (IOException e) {
-            throw new FileParseException("Unable to parse JSON file", e);
+            throw new PageParsingException("Unable to parse JSON file", e);
         }
     }
 
